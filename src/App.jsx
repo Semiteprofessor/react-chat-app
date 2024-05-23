@@ -13,6 +13,8 @@ const App = () => {
   const { currentUser, isLoading, fetchUserInfo } = useUserStore();
   const { chatId } = useChatStore();
 
+  console.log(currentUser);
+
   useEffect(() => {
     const unSub = onAuthStateChanged(auth, (user) => {
       fetchUserInfo(user?.uid);
@@ -25,23 +27,27 @@ const App = () => {
 
   if (isLoading)
     return (
-      <div className="p-12 text-[36px] rounded-lg bg-[#111928e6] text-white">
-        Loading...
+      <div className="h-[100vh] flex items-center justify-end">
+        <div className="p-12 text-[36px] rounded-lg bg-[#111928e6] text-white">
+          Loading...
+        </div>
       </div>
     );
 
   return (
-    <div className="flex w-[80vw] h-[90vh] bg-[#111928bf] backdrop-blur-md rounded-sm border-1 border-[#ffffff20] text-white">
-      {currentUser ? (
-        <>
-          <List />
-          {chatId && <Chat />}
-          {chatId && <Detail />}
-        </>
-      ) : (
-        <Login />
-      )}
-      <Notification />
+    <div className="h-[100vh] flex items-center justify-end">
+      <div className="flex w-[80vw] h-[90vh] bg-[#111928bf] backdrop-blur-md rounded-sm border-1 border-[#ffffff20] text-white">
+        {!currentUser ? (
+          <Login />
+        ) : (
+          <>
+            <List />
+            {chatId && <Chat />}
+            {chatId && <Detail />}
+          </>
+        )}
+        <Notification />
+      </div>
     </div>
   );
 };
